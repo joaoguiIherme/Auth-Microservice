@@ -45,8 +45,7 @@ Before setting up the Auth Microservice, ensure you have:
 
 Clone this repository into your workspace:
 ```bash
-git clone https://github.com/joaoguiIherme/Auth-Microservice.git
-cd Auth-Microservice
+git clone https://github.com/joaoguiIherme/auth_service.git
 ```
 
 ### 2. File Structure Adjustment
