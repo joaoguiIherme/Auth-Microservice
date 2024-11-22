@@ -23,5 +23,11 @@ module AuthService
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.hosts << "auth_service"
+    config.hosts << "main_app"
+    config.hosts << "scraping_service"
+    config.hosts << "notifications_service"
+
   end
 end

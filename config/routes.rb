@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :auth do
+    post 'register', to: 'auth#register'
+    post 'login', to: 'auth#login'
+    get 'validate', to: 'auth#validate'
+  end
 end
