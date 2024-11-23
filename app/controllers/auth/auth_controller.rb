@@ -3,7 +3,7 @@ module Auth
     def register
       user = User.new(user_params)
       if user.save
-        render json: { message: "Usuário registrado com sucesso!" }, status: :created
+        render json: { message: 'User registered successfully!' }, status: :created
       else
         render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
       end
@@ -15,22 +15,23 @@ module Auth
         token = JsonWebToken.encode(user_id: user.id)
         render json: { token: token }, status: :ok
       else
-        render json: { error: "Credenciais inválidas" }, status: :unauthorized
+        render json: { error: 'Invalid credentials' }, status: :unauthorized
       end
     end
 
     def validate
       token = request.headers['Authorization']&.split(' ')&.last
-      decoded = JsonWebToken.decode(token)
-      if decoded
-        user = User.find_by(id: decoded[:user_id])
+      decoded_token = JsonWebToken.decode(token)
+
+      if decoded_token
+        user = User.find_by(id: decoded_token[:user_id])
         if user
-          render json: { user: { id: user.id, email: user.email } }, status: :ok
+          render json: { valid: true }, status: :ok
         else
-          render json: { error: "Usuário não encontrado" }, status: :unauthorized
+          render json: { valid: false }, status: :unauthorized
         end
       else
-        render json: { error: "Token inválido" }, status: :unauthorized
+        render json: { valid: false }, status: :unauthorized
       end
     rescue StandardError => e
       render json: { error: e.message }, status: :unauthorized
@@ -39,7 +40,7 @@ module Auth
     private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.permit(:name, :email, :password, :password_confirmation)
     end
   end
 end
